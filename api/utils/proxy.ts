@@ -5,11 +5,11 @@ export const proxy = (host: string) => async (context: Context): Promise<any> =>
   const body = context.req.body ? new TextEncoder().encode(JSON.stringify(context.req.body)) : null;
 
   const headers = {
-    ...context.req?.headers
+    'Content-Type': 'application/json',
   };
-  delete headers['host'];
-  delete headers['origin'];
-  delete headers['referer'];
+  if (context.req?.headers['authorization']) {
+    headers['authorization'] = context.req?.headers['authorization'];
+  }
 
   const options: RequestOptions = {
     host: host,
