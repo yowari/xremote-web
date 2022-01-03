@@ -54,7 +54,7 @@ export const proxy = (host: string) => async (context: Context): Promise<any> =>
 
   const response = await request();
 
-  context.log('proxy response ', options);
+  context.log('proxy response ', response);
 
   return response;
 };
