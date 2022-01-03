@@ -8,6 +8,8 @@ export const proxy = (host: string) => async (context: Context): Promise<any> =>
     ...context.req?.headers
   };
   delete headers['host'];
+  delete headers['origin'];
+  delete headers['referer'];
 
   const options: RequestOptions = {
     host: host,
