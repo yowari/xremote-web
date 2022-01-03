@@ -55,6 +55,10 @@ function Login(): JSX.Element {
               Make sure you are logged in the <a href="https://account.xbox.com/account/signin?returnUrl=https%3A%2F%2Fwww.xbox.com%2Fen-US%2Fplay&ru=https%3A%2F%2Fwww.xbox.com%2Fen-US%2Fplay" target="blank">Xbox website</a>{' '}
               for valid streaming token.
             </div>
+            <div className="form-text">
+              Read the <a href="https://github.com/yowari/xremote-js/wiki/Authentication" target="blank">wiki page</a>{' '}
+              for a step by step guide.
+            </div>
           </div>
 
           <button type="submit" className="btn btn-lg btn-primary w-100">Submit</button>
