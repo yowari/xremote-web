@@ -2,23 +2,23 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
-    '/proxy/xhome',
+    '/api/proxy/xhome',
     createProxyMiddleware({
       target: 'https://uks.gssv-play-prodxhome.xboxlive.com',
       changeOrigin: true,
       pathRewrite: {
-        '^/proxy/xhome': '/'
+        '^/api/proxy/xhome': '/'
       }
     })
   );
 
   app.use(
-    '/proxy/auth',
+    '/api/proxy/auth',
     createProxyMiddleware({
       target: 'https://xhome.gssv-play-prod.xboxlive.com',
       changeOrigin: true,
       pathRewrite: {
-        '^/proxy/auth': '/'
+        '^/api/proxy/auth': '/'
       }
     })
   );

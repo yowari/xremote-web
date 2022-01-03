@@ -3,8 +3,8 @@ import { Client, setEnv } from '@yowari/xremote';
 import { useProviderContext } from '../../hooks/useProviderContext';
 
 setEnv({
-  baseUrl: '/proxy/xhome',
-  loginUrl: '/proxy/auth'
+  baseUrl: '/api/proxy/xhome',
+  loginUrl: '/api/proxy/auth'
 });
 
 export const ClientContext = createContext<Client | undefined>(undefined);
