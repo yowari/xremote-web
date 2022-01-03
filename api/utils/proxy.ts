@@ -19,6 +19,8 @@ export const proxy = (host: string) => async (context: Context): Promise<any> =>
     headers: headers,
   };
 
+  context.log('proxy request ', options);
+
   const request = () => {
     return new Promise((resolve, reject) => {
       const req = https.request(options, (res) => {
@@ -51,6 +53,8 @@ export const proxy = (host: string) => async (context: Context): Promise<any> =>
   };
 
   const response = await request();
+
+  context.log('proxy response ', options);
 
   return response;
 };
