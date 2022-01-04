@@ -4,7 +4,8 @@ import { useProviderContext } from '../../hooks/useProviderContext';
 
 setEnv({
   baseUrl: '/api/proxy/xhome',
-  loginUrl: '/api/proxy/auth'
+  loginUrl: '/api/proxy/auth',
+  authorizationHeader: 'xremote-authorization'
 });
 
 export const ClientContext = createContext<Client | undefined>(undefined);

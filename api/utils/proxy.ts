@@ -7,8 +7,8 @@ export const proxy = (host: string) => async (context: Context): Promise<any> =>
   const headers = {
     'Content-Type': 'application/json',
   };
-  if (context.req?.headers['authorization']) {
-    headers['authorization'] = context.req?.headers['authorization'];
+  if (context.req?.headers['xremote-authorization']) {
+    headers['authorization'] = context.req?.headers['xremote-authorization'];
   }
 
   const options: RequestOptions = {
