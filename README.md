@@ -41,18 +41,3 @@ You can also run the automated tests using:
 ```
 npm test
 ```
-
-### Auth
-
-It can be painful to develop with live reload and loose the auth token every time the page reloads.
-To get a better developper experience, you need to edit `src/providers/client-provider/client-provider.tsx`
-and hard code the token:
-
-```typescript
-function ClientProvider({ children }: ClientProviderProps): JSX.Element {
-  const client = useRef(new XRemoteClient());
-  client.current.gstoken = 'my-gstoken'; // add this line
-  ...
-```
-
-Do not forget to remove it when pushing your code.
