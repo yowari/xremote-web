@@ -1,12 +1,12 @@
 import React from 'react';
 
-export interface AboutProps {
+export interface AboutDialogProps {
   appName: string;
   appVersion: string;
   onClose?: () => void;
 }
 
-function About({ appName, appVersion, onClose }: AboutProps): JSX.Element {
+function AboutDialog({ appName, appVersion, onClose }: AboutDialogProps): JSX.Element {
   return (
     <div className="modal fade show d-block" tabIndex={-1} role="dialog">
       <div className="modal-dialog">
@@ -36,4 +36,4 @@ function About({ appName, appVersion, onClose }: AboutProps): JSX.Element {
   );
 }
 
-export default About;
+export default AboutDialog;
