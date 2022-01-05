@@ -7,6 +7,7 @@ import ToastProvider from '../../providers/toast-provider';
 import ClientProvider, { useClientContext } from '../../providers/client-provider';
 import { Console, List } from '@yowari/xremote';
 import userEvent from '@testing-library/user-event';
+import AuthProvider from '../../providers/auth-provider';
 
 const navigateMock = jest.fn();
 
@@ -66,7 +67,9 @@ const Wrapper = ({ children }: PropsWithChildren<{}>) => {
       <ModalProvider>
         <ToastProvider>
           <ClientProvider>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </ClientProvider>
         </ToastProvider>
       </ModalProvider>

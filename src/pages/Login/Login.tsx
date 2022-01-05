@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useClientContext } from '../../providers/client-provider';
 import { withAnonymousUser } from '../../hoc/withAnonymousUser';
+import { useAuthContext } from '../../providers/auth-provider';
 
 function Login(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
-  const client = useClientContext();
+  const { login } = useAuthContext();
+  const [loading, setLoading] = useState(false);
 
   const from = location.state?.from?.pathname || '/';
 
@@ -16,8 +17,15 @@ function Login(): JSX.Element {
     const formData = new FormData(event.currentTarget);
     const oauthToken = formData.get('oauthToken') as string;
 
-    await client.login(oauthToken);
-    navigate(from, { replace: true });
+    setLoading(true);
+    try {
+      await login(oauthToken);
+      setLoading(false);
+      navigate(from, { replace: true });
+    } catch (error) {
+      setLoading(false);
+      throw error;
+    }
   };
 
   return (
@@ -47,6 +55,7 @@ function Login(): JSX.Element {
              id="oauthToken"
              name="oauthToken"
              aria-describedby="oauthTokenHelp"
+             disabled={loading}
              required
              autoFocus
             />
@@ -61,7 +70,7 @@ function Login(): JSX.Element {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-lg btn-primary w-100">Submit</button>
+          <button type="submit" className="btn btn-lg btn-primary w-100" disabled={loading}>Submit</button>
         </form>
       </main>
     </>

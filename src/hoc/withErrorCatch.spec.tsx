@@ -4,21 +4,27 @@ import { MemoryRouter } from 'react-router-dom';
 import withErrorCatch from './withErrorCatch';
 import ToastProvider from '../providers/toast-provider';
 import ClientProvider from '../providers/client-provider';
+import AuthProvider from '../providers/auth-provider';
+import ModalProvider from '../providers/modal-provider';
 
 const Wrapper = ({ children }: PropsWithChildren<{}>) => {
   return (
     <MemoryRouter>
-      <ToastProvider>
-        <ClientProvider>
-          {children}
-        </ClientProvider>
-      </ToastProvider>
+      <ModalProvider>
+        <ToastProvider>
+          <ClientProvider>
+            <AuthProvider>
+              {children}
+            </AuthProvider>
+          </ClientProvider>
+        </ToastProvider>
+      </ModalProvider>
     </MemoryRouter>
   )
 }
 
 describe('withErrorCatch', () => {
-  let consoleError: any;
+  let consoleError: jest.SpyInstance;
   beforeEach(() => {
     consoleError = jest.spyOn(console, 'error');
     consoleError.mockImplementation(() => null);

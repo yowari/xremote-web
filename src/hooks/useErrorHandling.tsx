@@ -1,13 +1,14 @@
 import { HttpError } from '@yowari/xremote';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useClientContext } from '../providers/client-provider';
+import AuthDialog from '../components/AuthDialog';
 import { ToastActionType, useToastContext } from '../providers/toast-provider';
+import { useAuthContext } from '../providers/auth-provider';
+import { useModalContext } from '../providers/modal-provider';
 
 export function useErrorHandling(): void {
   const { dispatch } = useToastContext();
-  const navigate = useNavigate();
-  const client = useClientContext();
+  const { open, close } = useModalContext();
+  const { logout, refreshToken } = useAuthContext();
 
   useEffect(() => {
     const pushErrorToast = (error: Error) => {
@@ -20,13 +21,19 @@ export function useErrorHandling(): void {
       });
     }
 
-    const onunhandledrejection = (event: PromiseRejectionEvent) => {
+    const onunhandledrejection = async (event: PromiseRejectionEvent) => {
       const error = event.reason;
 
       if (error instanceof HttpError) {
         if (error.response.status === 401) {
-          client.logout();
-          navigate('/login');
+          open(<AuthDialog />);
+          const success = await refreshToken();
+          close();
+          if (success) {
+            close();
+          } else {
+            logout();
+          }
         } else {
           pushErrorToast(error);
         }
@@ -40,5 +47,5 @@ export function useErrorHandling(): void {
     return () => {
       window.removeEventListener('unhandledrejection', onunhandledrejection);
     };
-  }, [dispatch, client, navigate]);
+  }, [dispatch, refreshToken, logout, close, open]);
 }

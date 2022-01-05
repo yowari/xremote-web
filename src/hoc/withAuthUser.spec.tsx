@@ -4,6 +4,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Client } from '@yowari/xremote';
 import { withAuthUser } from './withAuthUser';
 import { ClientContext } from '../providers/client-provider';
+import AuthProvider from '../providers/auth-provider';
 
 describe('withAuthUser', () => {
   it('should render wrapped component when logged in', () => {
@@ -18,10 +19,12 @@ describe('withAuthUser', () => {
     render(
       <MemoryRouter initialEntries={['/auth']}>
         <ClientContext.Provider value={client}>
-          <Routes>
-            <Route path="login" element={<LoginComponent />} />
-            <Route path="auth" element={<AuthComponent />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="login" element={<LoginComponent />} />
+              <Route path="auth" element={<AuthComponent />} />
+            </Routes>
+          </AuthProvider>
         </ClientContext.Provider>
       </MemoryRouter>
     );
@@ -40,10 +43,12 @@ describe('withAuthUser', () => {
     render(
       <MemoryRouter initialEntries={['/auth']}>
         <ClientContext.Provider value={client}>
-          <Routes>
-            <Route path="login" element={<LoginComponent />} />
-            <Route path="auth" element={<AuthComponent />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="login" element={<LoginComponent />} />
+              <Route path="auth" element={<AuthComponent />} />
+            </Routes>
+          </AuthProvider>
         </ClientContext.Provider>
       </MemoryRouter>
     );

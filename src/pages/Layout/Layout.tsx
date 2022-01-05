@@ -1,19 +1,13 @@
 import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import About from '../../components/About';
 import Header from '../../components/Header';
-import { useClientContext } from '../../providers/client-provider';
+import { useAuthContext } from '../../providers/auth-provider';
 import { useModalContext } from '../../providers/modal-provider';
 
 function Layout(): JSX.Element {
-  const client = useClientContext();
-  const navigate = useNavigate();
+  const { logout } = useAuthContext();
   const { open, close } = useModalContext();
-
-  const handleLogout = () => {
-    client.logout();
-    navigate('/login');
-  };
 
   const handleOpenHelp = () => {
     open(<About appName={process.env.REACT_APP_NAME ?? ''} appVersion={process.env.REACT_APP_VERSION ?? ''} onClose={close} />);
@@ -22,7 +16,7 @@ function Layout(): JSX.Element {
   return (
     <>
       <header className="mb-2" role="banner">
-        <Header onLogout={handleLogout} onOpenHelp={handleOpenHelp} />
+        <Header onLogout={logout} onOpenHelp={handleOpenHelp} />
       </header>
 
       <main className="container-fluid">

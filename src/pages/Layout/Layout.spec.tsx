@@ -1,14 +1,23 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Layout from './Layout';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import Layout from './Layout';
 import ModalProvider from '../../providers/modal-provider';
 import ToastProvider from '../../providers/toast-provider';
 import ClientProvider from '../../providers/client-provider';
-import userEvent from '@testing-library/user-event';
+import AuthProvider from '../../providers/auth-provider';
 
 const Component = () => <>Component Example</>;
-const LoginComponent = () => <>Login Component</>
+
+const mockLogout = jest.fn();
+jest.mock('../../providers/auth-provider', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../providers/auth-provider'),
+  useAuthContext: () => ({
+    logout: mockLogout
+  })
+}));
 
 describe('Layout', () => {
   it('should render header', () => {
@@ -17,7 +26,9 @@ describe('Layout', () => {
         <ModalProvider>
           <ToastProvider>
             <ClientProvider>
-              <Layout />
+              <AuthProvider>
+                <Layout />
+              </AuthProvider>
             </ClientProvider>
           </ToastProvider>
         </ModalProvider>
@@ -33,12 +44,13 @@ describe('Layout', () => {
         <ModalProvider>
           <ToastProvider>
             <ClientProvider>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<Component />} />
-                </Route>
-                <Route path="login" element={<LoginComponent />} />
-              </Routes>
+              <AuthProvider>
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<Component />} />
+                  </Route>
+                </Routes>
+              </AuthProvider>
             </ClientProvider>
           </ToastProvider>
         </ModalProvider>
@@ -46,10 +58,26 @@ describe('Layout', () => {
     );
 
     expect(screen.getByText('Component Example')).toBeInTheDocument();
+  });
+
+  it('should logout when clicking on logout button', () => {
+    render(
+      <MemoryRouter>
+        <ModalProvider>
+          <ToastProvider>
+            <ClientProvider>
+              <AuthProvider>
+                <Layout />
+              </AuthProvider>
+            </ClientProvider>
+          </ToastProvider>
+        </ModalProvider>
+      </MemoryRouter>
+    );
 
     userEvent.click(screen.getByRole('button', { name: /logout/i }));
 
-    expect(screen.getByText('Login Component')).toBeInTheDocument();
+    expect(mockLogout).toHaveBeenCalled();
   });
 
   it('should open help modal', () => {
@@ -58,7 +86,9 @@ describe('Layout', () => {
         <ModalProvider>
           <ToastProvider>
             <ClientProvider>
-              <Layout />
+              <AuthProvider>
+                <Layout />
+              </AuthProvider>
             </ClientProvider>
           </ToastProvider>
         </ModalProvider>

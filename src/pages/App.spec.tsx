@@ -5,6 +5,7 @@ import App from './App';
 import ClientProvider from '../providers/client-provider';
 import ToastProvider from '../providers/toast-provider';
 import ModalProvider from '../providers/modal-provider';
+import AuthProvider from '../providers/auth-provider';
 
 const Wrapper = ({ children }: PropsWithChildren<{}>) => {
   return (
@@ -12,7 +13,9 @@ const Wrapper = ({ children }: PropsWithChildren<{}>) => {
       <ModalProvider>
         <ToastProvider>
           <ClientProvider>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </ClientProvider>
         </ToastProvider>
       </ModalProvider>

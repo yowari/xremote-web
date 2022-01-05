@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './pages/App';
+import AuthProvider from './providers/auth-provider';
 import ClientProvider from './providers/client-provider';
 import ModalProvider from './providers/modal-provider';
 import ToastProvider from './providers/toast-provider';
@@ -14,7 +15,9 @@ ReactDOM.render(
       <ModalProvider>
         <ToastProvider>
           <ClientProvider>
-            <App />
+            <AuthProvider>
+              <App />
+            </AuthProvider>
           </ClientProvider>
         </ToastProvider>
       </ModalProvider>
