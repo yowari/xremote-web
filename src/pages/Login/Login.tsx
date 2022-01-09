@@ -20,7 +20,6 @@ function Login(): JSX.Element {
     setLoading(true);
     try {
       await login(oauthToken);
-      setLoading(false);
       navigate(from, { replace: true });
     } catch (error) {
       setLoading(false);
