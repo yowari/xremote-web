@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StreamState } from '@yowari/xremote';
+import { GamepadFrame, StreamState } from '@yowari/xremote';
 import PlayerLoading from './PlayerLoading';
 import PlayerControl from './PlayerControl';
 import { useVideoSourceBufferContext } from '../../providers/video-source-buffer-provider';
+import { useGamepad } from '../../hooks/useGamepad';
 
 const PLAYER_CONTROL_DISPLAY_DELAY = 1000;
 
 export interface PlayerProps {
   streamState?: StreamState;
+  onGamepadChange?: (gamepad: GamepadFrame) => void
 }
 
-function Player({ streamState }: PlayerProps): JSX.Element {
+function Player({ streamState, onGamepadChange }: PlayerProps): JSX.Element {
   const { mediaSource, sourceBuffer } = useVideoSourceBufferContext();
 
   const [showControl, setShowControl] = useState<boolean>(true);
@@ -20,6 +22,8 @@ function Player({ streamState }: PlayerProps): JSX.Element {
   const videoElementRef = useRef<HTMLVideoElement | null>(null);
   const mouseOverControl = useRef<boolean>(false);
   const showControlTimeout = useRef<number>(0);
+
+  useGamepad(onGamepadChange);
 
   useEffect(() => {
     if (sourceBuffer) {

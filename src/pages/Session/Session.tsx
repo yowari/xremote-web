@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { StreamState, StreamStateChangeEvent, VideoFrameEvent, VIDEO_CHANNEL } from '@yowari/xremote';
+import {
+  GamepadFrame,
+  StreamState,
+  StreamStateChangeEvent,
+  VideoFrameEvent,
+  VIDEO_CHANNEL
+} from '@yowari/xremote';
 import Player from '../../components/Player';
 import { withAuthUser } from '../../hoc/withAuthUser';
 import { withSourceBuffer } from '../../hoc/withSourceBuffer';
 import { useClientContext } from '../../providers/client-provider';
-// import { PlayerPlugin } from '../../plugins/plugin';
 import { useVideoSourceBufferContext } from '../../providers/video-source-buffer-provider';
-
-// const plugins: PlayerPlugin[] = [];
 
 function Session(): JSX.Element {
   const { sessionId } = useParams();
@@ -51,15 +54,14 @@ function Session(): JSX.Element {
     }
   }, [startStream, stopStream, sourceBuffer]);
 
-  // useEffect(() => {
-  //   if (videoElement && client) {
-  //     plugins.forEach((plugin) => plugin.onInit({ videoElement, client }))
-  //   }
-  // }, [client, videoElement]);
+  const handleGamepadChange = (gamepad: GamepadFrame) => {
+    const gamepadManager = client.getGamepadManager();
+    gamepadManager.pushState(gamepad);
+  };
 
   return (
     <div className="border">
-      <Player streamState={streamState} />
+      <Player streamState={streamState} onGamepadChange={handleGamepadChange} />
     </div>
   );
 }
