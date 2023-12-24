@@ -2,34 +2,6 @@
   "name": "xremote-web",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/react-hooks": "^7.0.2",
-    "@testing-library/user-event": "^12.8.3",
-    "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.37",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@yowari/xremote": "^0.1.3",
-    "bootstrap": "^5.1.3",
-    "bootstrap-icons": "^1.7.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^6.0.2",
-    "react-scripts": "4.0.3",
-    "typescript": "^4.5.2",
-    "web-vitals": "^1.1.2"
-  },
-  "devDependencies": {
-    "@storybook/addon-actions": "^6.4.9",
-    "@storybook/addon-essentials": "^6.4.9",
-    "@storybook/addon-links": "^6.4.9",
-    "@storybook/node-logger": "^6.4.9",
-    "@storybook/preset-create-react-app": "^3.2.0",
-    "@storybook/react": "^6.4.9",
-    "http-proxy-middleware": "^2.0.1"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -38,21 +10,33 @@
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
+  "dependencies": {
+    "@yowari/xremote": "^0.1.3",
+    "bootstrap": "^5.3.2",
+    "bootstrap-icons": "^1.11.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.4.9",
+    "@storybook/addon-essentials": "^6.4.9",
+    "@storybook/addon-links": "^6.4.9",
+    "@storybook/node-logger": "^6.4.9",
+    "@storybook/preset-create-react-app": "^3.2.0",
+    "@storybook/react": "^6.4.9",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/react-hooks": "^7.0.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.68",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "http-proxy-middleware": "^2.0.6",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.5"
   },
   "browserslist": {
     "production": [

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './pages/App';
@@ -9,7 +9,15 @@ import ModalProvider from './providers/modal-provider';
 import ToastProvider from './providers/toast-provider';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+
+if (!container) {
+  throw new Error('Root element not found');
+}
+
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ModalProvider>
@@ -22,8 +30,7 @@ ReactDOM.render(
         </ToastProvider>
       </ModalProvider>
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
