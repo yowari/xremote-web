@@ -1,17 +1,18 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import Toast from './Toast';
 
-export default {
+const meta = {
   title: 'components/Toast',
   component: Toast
-} as ComponentMeta<typeof Toast>;
+} satisfies Meta<typeof Toast>;
 
-const Template: ComponentStory<typeof Toast> = (args) => <Toast {...args} />
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  ...Default.args,
-  title: 'Toast Title',
-  content: 'This is a toast content example text.'
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    title: 'Toast Title',
+    content: 'This is a toast content example text.'
+  }
 };

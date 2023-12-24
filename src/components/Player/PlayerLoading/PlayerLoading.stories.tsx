@@ -1,9 +1,8 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { StreamState } from '@yowari/xremote';
 import PlayerLoading from './PlayerLoading';
 
-export default {
+const meta = {
   title: 'components/Player/PlayerLoading',
   component: PlayerLoading,
   argTypes: {
@@ -27,12 +26,14 @@ export default {
       }
     }
   }
-} as ComponentMeta<typeof PlayerLoading>;
+} satisfies Meta<typeof PlayerLoading>;
 
-const Template: ComponentStory<typeof PlayerLoading> = (args) => <PlayerLoading {...args} />
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  ...Template.args,
-  streamState: StreamState.InitSession
-}
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    streamState: StreamState.InitSession
+  }
+};

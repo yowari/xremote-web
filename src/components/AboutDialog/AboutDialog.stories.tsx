@@ -1,17 +1,18 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import AboutDialog from './AboutDialog';
 
-export default {
+const meta = {
   title: 'components/AboutDialog',
   component: AboutDialog
-} as ComponentMeta<typeof AboutDialog>;
+} satisfies Meta<typeof AboutDialog>;
 
-const Template: ComponentStory<typeof AboutDialog> = (args) => <AboutDialog {...args} />
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  ...Template.args,
-  appName: 'Application Name',
-  appVersion: '0.0.1'
-}
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    appName: 'Application Name',
+    appVersion: '0.0.1'
+  }
+};

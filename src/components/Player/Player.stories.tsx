@@ -1,21 +1,9 @@
-import React, { PropsWithChildren } from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { StreamState } from '@yowari/xremote';
 import Player from './Player';
-import VideoSourceBufferProvider, { useVideoSourceBufferContext } from '../../providers/video-source-buffer-provider';
+import VideoSourceBufferProvider from '../../providers/video-source-buffer-provider';
 
-type VideoFetchProps = PropsWithChildren<{}>;
-
-function VideoFetch({children}: VideoFetchProps): JSX.Element {
-  const { renderFrame } = useVideoSourceBufferContext();
-  return (
-    <>
-      {children}
-    </>
-  );
-};
-
-export default {
+const meta = {
   title: 'components/Player',
   component: Player,
   decorators: [
@@ -46,8 +34,10 @@ export default {
       }
     }
   }
-} as ComponentMeta<typeof Player>;
+} satisfies Meta<typeof Player>;
 
-const Template: ComponentStory<typeof Player> = (args) => <Player {...args} />
+export default meta;
 
-export const Default = Template.bind({});
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

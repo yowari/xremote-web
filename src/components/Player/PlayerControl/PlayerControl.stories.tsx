@@ -1,12 +1,13 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import PlayerControl from './PlayerControl';
 
-export default {
+const meta = {
   title: 'components/Player/PlayerControl',
   component: PlayerControl
-} as ComponentMeta<typeof PlayerControl>;
+} satisfies Meta<typeof PlayerControl>;
 
-const Template: ComponentStory<typeof PlayerControl> = (args) => <PlayerControl {...args} />
+export default meta;
 
-export const Default = Template.bind({});
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

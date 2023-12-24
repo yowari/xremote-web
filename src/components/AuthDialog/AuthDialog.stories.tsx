@@ -1,12 +1,13 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import AuthDialog from './AuthDialog';
 
-export default {
+const meta = {
   title: 'components/AuthDialog',
   component: AuthDialog
-} as ComponentMeta<typeof AuthDialog>;
+} satisfies Meta<typeof AuthDialog>;
 
-const Template: ComponentStory<typeof AuthDialog> = (args) => <AuthDialog />
+export default meta;
 
-export const Default = Template.bind({});
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};

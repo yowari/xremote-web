@@ -1,5 +1,4 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Console } from '@yowari/xremote';
 import ConsoleCard from './ConsoleCard';
 
@@ -14,15 +13,17 @@ const console: Console = {
   wirelessWarning: true
 };
 
-export default {
+const meta = {
   title: 'components/ConsoleCard',
   component: ConsoleCard
-} as ComponentMeta<typeof ConsoleCard>;
+} satisfies Meta<typeof ConsoleCard>;
 
-const Template: ComponentStory<typeof ConsoleCard> = (args) => <ConsoleCard {...args} />
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  ...Default.args,
-  console
-}
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    console
+  }
+};

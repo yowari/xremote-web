@@ -1,9 +1,6 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  extends: [
-    'react-app',
-    'react-app/jest'
-  ],
+  extends: ['react-app', 'react-app/jest', 'plugin:storybook/recommended'],
   overrides: [
     {
       files: [
