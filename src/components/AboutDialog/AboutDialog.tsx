@@ -15,7 +15,7 @@ function AboutDialog({ appName, appVersion, onClose }: AboutDialogProps): JSX.El
           </div>
           <div className="modal-body">
             <div className="mb-3 d-flex flex-column align-items-center">
-              <img className="d-block" width={150} height={150} src="/images/xremote-logo.png" alt="XRemote Logo" />
+              <div className="display-1"><i className="bi bi-xbox"></i></div>
               <div>
                 <h2 className="mb-0">{appName}</h2>
                 <div className="small"><strong>Version</strong> {appVersion}</div>

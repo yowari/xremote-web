@@ -1,4 +1,4 @@
-function AuthDialog(): JSX.Element {
+export default function AuthDialog() {
   return (
     <div className="modal fade show d-block" tabIndex={-1} role="dialog">
       <div className="modal-dialog modal-dialog-centered modal-sm">
@@ -19,5 +19,3 @@ function AuthDialog(): JSX.Element {
     </div>
   );
 }
-
-export default AuthDialog;

@@ -22,7 +22,7 @@ export interface PlayerLoadingProps {
 
 function PlayerLoading({ streamState }: PlayerLoadingProps): JSX.Element {
   return (
-    <div className="bg-light text-center d-flex flex-column align-items-center w-100 h-100">
+    <div className="bg-body text-center d-flex flex-column align-items-center w-100 h-100">
       <div className="my-auto">
         <div className="progress" style={{ width: '300px' }}>
           <div

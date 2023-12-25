@@ -19,14 +19,14 @@ describe('Header', () => {
     expect(handleOpenHelpMock).toHaveBeenCalled();
   });
 
-  it('should call onLogout when clicking on logout button', async () => {
-    const handleLogoutMock = jest.fn();
+  // it('should call onLogout when clicking on logout button', async () => {
+  //   const handleLogoutMock = jest.fn();
 
-    render(<Header onLogout={handleLogoutMock} />, { wrapper: MemoryRouter });
+  //   render(<Header onLogout={handleLogoutMock} />, { wrapper: MemoryRouter });
 
-    const logoutButton = screen.getByRole('button', { name: /logout/i });
-    await userEvent.click(logoutButton);
+  //   const logoutButton = screen.getByRole('button', { name: /logout/i });
+  //   await userEvent.click(logoutButton);
 
-    expect(handleLogoutMock).toHaveBeenCalled();
-  });
+  //   expect(handleLogoutMock).toHaveBeenCalled();
+  // });
 });

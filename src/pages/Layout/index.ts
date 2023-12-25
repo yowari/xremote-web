@@ -1,1 +1,1 @@
-export { default } from './Layout';
+export { default, ErrorBoundary } from './Layout';

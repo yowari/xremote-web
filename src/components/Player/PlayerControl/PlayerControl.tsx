@@ -13,7 +13,7 @@ function PlayerControl({
 }: PlayerControlProps): JSX.Element {
   return (
     <div
-     className="d-flex align-items-center p-2 bg-light border-bottom"
+     className="d-flex align-items-center p-2 bg-body border-bottom"
      style={{ opacity: '0.8' }}
      onMouseOver={onMouseOver}
      onMouseLeave={onMouseLeave}

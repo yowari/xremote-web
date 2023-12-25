@@ -8,15 +8,14 @@ import {
   VIDEO_CHANNEL
 } from '@yowari/xremote';
 import Player from '../../components/Player';
-import { withAuthUser } from '../../hoc/withAuthUser';
 import { withSourceBuffer } from '../../hoc/withSourceBuffer';
-import { useClientContext } from '../../providers/client-provider';
 import { useVideoSourceBufferContext } from '../../providers/video-source-buffer-provider';
+import { createClient } from '../../utils/client';
 
 function Session(): JSX.Element {
+  const [client] = useState(() => createClient());
   const { sessionId } = useParams();
 
-  const client = useClientContext();
   const { renderFrame, sourceBuffer } = useVideoSourceBufferContext();
 
   const [streamState, setStreamState] = useState<StreamState>();
@@ -66,4 +65,4 @@ function Session(): JSX.Element {
   );
 }
 
-export default withAuthUser(withSourceBuffer(Session));
+export default withSourceBuffer(Session);
