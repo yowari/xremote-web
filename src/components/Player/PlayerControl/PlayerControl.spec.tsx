@@ -13,11 +13,11 @@ describe('PlayerControl', () => {
     const iconElem = fullscreenButton.querySelector('i');
     expect(iconElem?.classList).toContain(icon);
   });
-  it('should should call onMouseOver when mouse is over the component', () => {
+  it('should should call onMouseOver when mouse is over the component', async () => {
     const handleMouseOverMock = jest.fn();
 
     render(<PlayerControl onMouseOver={handleMouseOverMock} />);
-    userEvent.hover(screen.getByTestId('playerControl-container'));
+    await userEvent.hover(screen.getByTestId('playerControl-container'));
 
     expect(handleMouseOverMock).toHaveBeenCalled();
   });
@@ -29,12 +29,12 @@ describe('PlayerControl', () => {
 
     expect(handleMouseLeaveMock).toHaveBeenCalled();
   });
-  it('should should call onFullscreen when clicking fullscreen button', () => {
+  it('should should call onFullscreen when clicking fullscreen button', async () => {
     const handleFullscreenMock = jest.fn();
 
     render(<PlayerControl onFullscreen={handleFullscreenMock} />);
     const fullscreenButton = screen.getByRole('button', { name: /fullscreen/i });
-    userEvent.click(fullscreenButton);
+    await userEvent.click(fullscreenButton);
 
     expect(handleFullscreenMock).toHaveBeenCalled();
   });

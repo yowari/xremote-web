@@ -11,12 +11,12 @@ describe('Toast', () => {
     expect(screen.getByTestId('toast-title')).toHaveTextContent(title);
     expect(screen.getByTestId('toast-content')).toHaveTextContent(content);
   });
-  it('should call onClose when click on the cross', () => {
+  it('should call onClose when click on the cross', async () => {
     const handleCloseMock = jest.fn();
 
     render(<Toast title={title} content={content} onClose={handleCloseMock} />);
     const crossButton = screen.getByRole('button', { name: /close/i });
-    userEvent.click(crossButton);
+    await userEvent.click(crossButton);
 
     expect(handleCloseMock).toHaveBeenCalled();
   });

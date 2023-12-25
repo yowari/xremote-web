@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, waitFor, waitForElementToBeRemoved, within } from '@testing-library/react';
 import Home from './Home';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import ModalProvider from '../../providers/modal-provider';
@@ -84,7 +84,9 @@ describe('Home', () => {
 
     render(<Home />, { wrapper: Wrapper });
 
-    const consoleListElement = await screen.findByRole('list', { name: /consoles/i });
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+
+    const consoleListElement = screen.getByRole('list', { name: /consoles/i });
     const consoles = within(consoleListElement).queryAllByRole('listitem');
 
     expect(consoles.length).toEqual(2);
@@ -107,7 +109,9 @@ describe('Home', () => {
 
     render(<Home />, { wrapper: Wrapper });
 
-    const consoleListElement = await screen.findByRole('list', { name: /consoles/i });
+    await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
+
+    const consoleListElement = screen.getByRole('list', { name: /consoles/i });
     const consoles = within(consoleListElement).queryAllByRole('listitem');
     const startStreamButton = within(consoles[0]).getByRole('button', { name: /start stream/i });
 

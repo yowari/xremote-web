@@ -33,7 +33,7 @@ describe('ToastProvider', () => {
     expect(screen.getByTestId('toast-content')).toHaveTextContent(toast.content);
   });
 
-  it('should remove the toast component when clicking on cross', () => {
+  it('should remove the toast component when clicking on cross', async () => {
     render(
       <ToastProvider>
         <Component />
@@ -46,7 +46,7 @@ describe('ToastProvider', () => {
     expect(screen.getByTestId('toast-content')).toHaveTextContent(toast.content);
 
     const crossButton = screen.getByRole('button', { name: /close/i });
-    userEvent.click(crossButton);
+    await userEvent.click(crossButton);
 
     expect(screen.queryByTestId('toast-title')).not.toBeInTheDocument();
     expect(screen.queryByTestId('toast-content')).not.toBeInTheDocument();

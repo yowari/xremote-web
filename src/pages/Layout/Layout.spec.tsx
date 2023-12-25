@@ -59,7 +59,7 @@ describe('Layout', () => {
     expect(screen.getByText('Component Example')).toBeInTheDocument();
   });
 
-  it('should logout when clicking on logout button', () => {
+  it('should logout when clicking on logout button', async () => {
     render(
       <MemoryRouter>
         <ModalProvider>
@@ -74,12 +74,12 @@ describe('Layout', () => {
       </MemoryRouter>
     );
 
-    userEvent.click(screen.getByRole('button', { name: /logout/i }));
+    await userEvent.click(screen.getByRole('button', { name: /logout/i }));
 
     expect(mockLogout).toHaveBeenCalled();
   });
 
-  it('should open help modal', () => {
+  it('should open help modal', async () => {
     render(
       <MemoryRouter>
         <ModalProvider>
@@ -94,7 +94,7 @@ describe('Layout', () => {
       </MemoryRouter>
     );
 
-    userEvent.click(screen.getByRole('link', { name: /help/i }));
+    await userEvent.click(screen.getByRole('button', { name: /help/i }));
 
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });

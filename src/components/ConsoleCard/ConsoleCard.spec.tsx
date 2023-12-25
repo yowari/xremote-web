@@ -32,19 +32,19 @@ describe('ConsoleCard', () => {
   it('should show spinner and disable start button when loading', () => {
     render(<ConsoleCard console={console} loading />);
 
-    const startStreamButton = screen.getByRole('button', { name: /Start Stream/i });
+    const startStreamButton = screen.getByRole('button', { name: /start stream/i });
 
     expect(within(startStreamButton).getByRole('status')).toHaveTextContent('Loading...');
     expect(startStreamButton).toBeDisabled();
   });
 
-  it('should call onStartStream when start stream button is clicked', () => {
+  it('should call onStartStream when start stream button is clicked', async () => {
     const handleStartStreamMock = jest.fn();
 
     render(<ConsoleCard console={console} onStartStream={handleStartStreamMock} />);
 
-    const startStreamButton = screen.getByRole('button', { name: /Start Stream/i });
-    userEvent.click(startStreamButton);
+    const startStreamButton = screen.getByRole('button', { name: /start stream/i });
+    await userEvent.click(startStreamButton);
 
     expect(handleStartStreamMock).toHaveBeenCalledWith(console);
   });
