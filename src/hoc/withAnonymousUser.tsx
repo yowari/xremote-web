@@ -1,4 +1,4 @@
-import React, { ComponentType } from 'react';
+import { ComponentType } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../providers/auth-provider';
 

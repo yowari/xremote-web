@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import PlayerControl from './PlayerControl';
 import userEvent from '@testing-library/user-event';

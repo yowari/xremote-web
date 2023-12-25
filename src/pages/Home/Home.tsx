@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Console } from '@yowari/xremote';
 import { withAuthUser } from '../../hoc/withAuthUser';

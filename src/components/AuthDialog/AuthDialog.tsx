@@ -1,5 +1,3 @@
-import React from 'react';
-
 function AuthDialog(): JSX.Element {
   return (
     <div className="modal fade show d-block" tabIndex={-1} role="dialog">

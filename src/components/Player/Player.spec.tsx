@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import Player from './Player';
 import VideoSourceBufferProvider from '../../providers/video-source-buffer-provider';

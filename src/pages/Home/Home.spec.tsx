@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import Home from './Home';
 import { MemoryRouter, useNavigate } from 'react-router-dom';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
 import AboutDialog from '../../components/AboutDialog';
 import Header from '../../components/Header';

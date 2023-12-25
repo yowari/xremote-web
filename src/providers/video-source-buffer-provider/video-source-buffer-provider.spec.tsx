@@ -1,4 +1,3 @@
-import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import VideoSourceBufferProvider, { useVideoSourceBufferContext } from './video-source-buffer-provider';

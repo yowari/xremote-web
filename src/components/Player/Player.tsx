@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GamepadFrame, StreamState } from '@yowari/xremote';
 import PlayerLoading from './PlayerLoading';
 import PlayerControl from './PlayerControl';

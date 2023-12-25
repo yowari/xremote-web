@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { withAnonymousUser } from '../../hoc/withAnonymousUser';
 import { useAuthContext } from '../../providers/auth-provider';
@@ -11,7 +11,7 @@ function Login(): JSX.Element {
 
   const from = location.state?.from?.pathname || '/';
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);

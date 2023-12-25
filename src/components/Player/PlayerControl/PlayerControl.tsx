@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface PlayerControlProps {
   isFullscreen?: boolean;
   onMouseOver?: () => void;

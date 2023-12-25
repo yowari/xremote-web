@@ -1,4 +1,3 @@
-import React from 'react';
 import { Console } from '@yowari/xremote';
 
 export interface ConsoleCardProps {

@@ -1,8 +1,8 @@
-import React from 'react';
+import { ComponentType } from 'react';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { useErrorHandling } from '../hooks/useErrorHandling';
 
-const withErrorCatch = <P extends object>(WrappedComponent: React.ComponentType<P>) => (props: P) => {
+const withErrorCatch = <P extends object>(WrappedComponent: ComponentType<P>) => (props: P) => {
   useErrorHandling();
 
   return (

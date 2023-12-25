@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { StreamState } from '@yowari/xremote';
 import PlayerLoading from './PlayerLoading';

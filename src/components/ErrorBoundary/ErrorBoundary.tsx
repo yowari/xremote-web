@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode } from 'react';
+import { Component, ContextType, PropsWithChildren, ReactNode } from 'react';
 import { ToastActionType, ToastContext } from '../../providers/toast-provider';
 
 export type ErrorBoundaryProps = PropsWithChildren<{}>;
@@ -7,9 +7,9 @@ export interface ErrorBoundaryState {
   hasError: boolean;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static contextType = ToastContext;
-  context: React.ContextType<typeof ToastContext>;
+  context: ContextType<typeof ToastContext>;
 
   constructor(props: ErrorBoundaryProps) {
     super(props);
