@@ -43,7 +43,7 @@ export interface ConsoleCardProps {
   loading?: boolean;
 }
 
-function ConsoleCard({ console, loading }: ConsoleCardProps) {
+export default function ConsoleCard({ console, loading }: ConsoleCardProps) {
   const ConsoleIcon = CONSOLE_ICONS[console.consoleType as keyof typeof CONSOLE_ICONS] ?? DefaultXbox;
   const stateColor = STATE_ICONS[console.powerState as keyof typeof STATE_ICONS] ?? STATE_ICONS['Unknown'];
   const stateText = STATE_TEXT[console.powerState as keyof typeof STATE_TEXT] ?? STATE_TEXT['Unknown'];
@@ -70,5 +70,3 @@ function ConsoleCard({ console, loading }: ConsoleCardProps) {
     </div>
   );
 }
-
-export default ConsoleCard;

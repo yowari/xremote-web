@@ -1,7 +1,7 @@
 import { Suspense, useState } from 'react';
 import { type ActionFunctionArgs, useLoaderData, redirect, Await, defer } from 'react-router-dom';
 import type { List, Console } from '@yowari/xremote';
-import ConsoleCard from '../../components/ConsoleCard';
+import ConsoleCard, { ConsoleCardSkeleton } from '../../components/ConsoleCard';
 import { invariant } from '../../utils/invariant';
 import { createClient } from '../../utils/client';
 import { requireAuth } from '../../utils/auth-guard';
@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <>
-      <h1 id="consoles-heading">Consoles</h1>
+      <h2 id="consoles-heading">Consoles</h2>
       <Suspense fallback={<LoadingConsoles />}>
         <Await resolve={consoles}>
           {(resolvedConsoles) => (
@@ -61,13 +61,17 @@ export default function Home() {
   );
 }
 
+const LOADING_CONSOLES = Array.from({ length: 1 }, (_, index) => index);
+
 function LoadingConsoles() {
   return (
-    <div className="col text-center">
-      <div className="spinner-border spinner-border-sm" style={{ width: '3rem', height: '3rem' }} role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    </div>
+    <ul className="list-unstyled row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4" aria-labelledby="consoles-heading">
+      {LOADING_CONSOLES.map((index) => (
+        <li key={index} className="col mb-3">
+          <ConsoleCardSkeleton />
+        </li>
+      ))}
+    </ul>
   );
 }
 

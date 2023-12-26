@@ -54,7 +54,7 @@ export default function Login() {
           <fieldset disabled={busy}>
             <div className="text-center mb-4">
               <img className="mb-4" src="/images/xbox-logo.png" alt="Xbox Logo" />
-              <h1 className="h3 fw-normal">Please authenticate</h1>
+              <h1 className="h3 fw-normal">XRemote Authentication</h1>
             </div>
 
             <div className="form-floating mb-3">
