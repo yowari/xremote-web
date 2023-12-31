@@ -1,4 +1,4 @@
-import { StrictMode } from 'react';
+// import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { setEnv } from '@yowari/xremote';
@@ -10,7 +10,6 @@ import { loader as logoutLoader, action as logoutAction } from './pages/Logout';
 import { action as refreshTokenAction, loader as refreshTokenLoader } from './pages/RefreshToken';
 import Root, { ErrorBoundary as RootErrorBoundary } from './pages/Root';
 import Session from './pages/Session';
-import reportWebVitals from './reportWebVitals';
 import './index.css';
 
 setEnv({
@@ -68,12 +67,7 @@ invariant(container !== null, 'Root element not found');
 const root = createRoot(container);
 
 root.render(
-  <StrictMode>
+  // <StrictMode>
     <RouterProvider router={router} />
-  </StrictMode>
+  // </StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

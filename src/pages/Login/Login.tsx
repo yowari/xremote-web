@@ -1,4 +1,13 @@
-import { ActionFunctionArgs, Form, json, redirect, useLoaderData, useNavigation } from 'react-router-dom';
+import {
+  ActionFunctionArgs,
+  Form,
+  json,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation
+} from 'react-router-dom';
+import { HttpError } from '@yowari/xremote';
 import { invariant } from '../../utils/invariant';
 import { login } from '../../utils/auth-service';
 import { requireUnauth } from '../../utils/auth-guard';
@@ -21,24 +30,37 @@ export function loader() {
   });
 }
 
+type ActionType = {
+  error?: string;
+};
+
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const oauthToken = formData.get('oauthToken');
   invariant(typeof oauthToken === 'string', 'OAuth Token is required');
 
-  await login(oauthToken);
+  try {
+    await login(oauthToken);
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return json({ error: 'Failed to login' });
+    }
+
+    throw error;
+  }
 
   return redirect('/');
 }
 
 export default function Login() {
   const { defaultValues } = useLoaderData() as LoaderType;
+  const actionData = useActionData() as ActionType;
   const navigation = useNavigation();
   const busy = navigation.state === 'submitting' || navigation.state === 'loading';
 
   return (
     <>
-      <a href="https://github.com/yowari/xremote-web" target="_blank" rel="noreferrer" style={{ position: 'absolute', top: 0, right: 0 }}>
+      <a className="position-absolute top-0 end-0" href="https://github.com/yowari/xremote-web" target="_blank" rel="noreferrer">
         <img
          loading="lazy"
          width="149"
@@ -56,6 +78,12 @@ export default function Login() {
               <img className="mb-4" src="/images/xbox-logo.png" alt="Xbox Logo" />
               <h1 className="h3 fw-normal">XRemote Authentication</h1>
             </div>
+
+            {actionData?.error && (
+              <div className="alert alert-danger" role="alert">
+                {actionData.error}
+              </div>
+            )}
 
             <div className="form-floating mb-3">
               <input

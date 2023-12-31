@@ -15,8 +15,8 @@ function Header({ onOpenHelp }: HeaderProps): JSX.Element {
           </li>
         </ul>
         <Form method="POST" action='/logout'>
-          <button className="btn btn-outline-success ms-3">
-            Logout
+          <button className="btn btn-outline-secondary rounded-pill ms-3">
+            <i className="bi bi-box-arrow-right"></i> Logout
           </button>
         </Form>
       </div>

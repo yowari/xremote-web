@@ -26,7 +26,7 @@ function AboutDialog({ appName, appVersion, onClose }: AboutDialogProps): JSX.El
               <a className="text-decoration-none" href="https://github.com/yowari/xremote-web" target="_blank" rel="noreferrer"><i className="bi bi-github"></i> GitHub</a>
             </p>
 
-            <div className="small text-muted text-center">Made with <i className="text-danger bi bi-heart-fill"></i> by <strong>yowari</strong></div>
+            <div className="small text-muted text-center">Made by <strong>yowari</strong></div>
           </div>
         </div>
       </div>

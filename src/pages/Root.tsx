@@ -1,13 +1,10 @@
 import { Outlet, useRouteError } from 'react-router-dom';
 import ModalProvider from '../providers/modal-provider';
-import ToastProvider from '../providers/toast-provider';
 
 export default function Root() {
   return (
     <ModalProvider>
-      <ToastProvider>
-        <Outlet />
-      </ToastProvider>
+      <Outlet />
     </ModalProvider>
   );
 }

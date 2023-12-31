@@ -30,4 +30,4 @@ export async function refreshToken() {
   } catch {
     return false;
   }
-};
+}

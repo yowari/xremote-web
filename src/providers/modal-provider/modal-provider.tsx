@@ -21,7 +21,7 @@ function ModalProvider({ children }: ModalProviderProps): JSX.Element {
 
   return (
     <ModalContext.Provider value={{ open, close }}>
-      <div className={'h-100' + (modal ? ' modal-open overflow-hidden' : '')}>
+      <div className={'h-100 d-flex flex-column' + (modal ? ' modal-open overflow-hidden' : '')}>
         {children}
         {modal}
         <div className={'modal-backdrop fade show ' + (modal ? 'd-block' : 'd-none')}></div>

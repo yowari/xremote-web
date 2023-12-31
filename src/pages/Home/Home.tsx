@@ -35,7 +35,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 export default function Home() {
   const { consoles } = useLoaderData() as LoaderData;
-  const [loadingStream] = useState<boolean>(false);
+  const [loadingStream] = useState(false);
 
   return (
     <>
