@@ -33,8 +33,8 @@ const STATE_ICONS = {
 const STATE_TEXT = {
   Unknown: 'Unknown',
   ConnectedStandby: 'Standby',
-  On: 'On',
-  Off: 'Off',
+  On: 'Power On',
+  Off: 'Power Off',
   SystemUpdate: 'System Update',
 };
 
@@ -52,9 +52,9 @@ export default function ConsoleCard({ console, loading }: ConsoleCardProps) {
     <div className="card">
       <div className="card-body">
         <h5 className="card-title">{console.deviceName}</h5>
-        <h6 className="card-subtitle mb-2 text-body-secondary">
+        <p className="card-subtitle mb-2 text-body-secondary">
           <i className={clsx(stateColor, 'bi')}></i> {stateText}
-        </h6>
+        </p>
 
         <div className="text-center py-4">
           <ConsoleIcon className={classes.consoleIcon} />

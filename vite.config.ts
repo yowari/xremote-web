@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -11,6 +12,12 @@ export default defineConfig({
     commonjsOptions: {
       include: [/@yowari\/xremote/, /node_modules/],
     },
+  },
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: ['./src/test/setup.ts'],
+    css: true,
   },
   server: {
     proxy: {

@@ -3,7 +3,7 @@ import { INPUT_CHANNEL, type Client } from '@yowari/xremote';
 
 export function useFrameMetadataReport(client: Client, videoElementRef: RefObject<HTMLVideoElement | null>) {
   useEffect(() => {
-    let callbackHandle = 0;
+    let videoFrameCallbackID = 0;
     const videoElement = videoElementRef.current;
 
     // when no video element found return early
@@ -28,14 +28,14 @@ export function useFrameMetadataReport(client: Client, videoElementRef: RefObjec
         frameDateNow: timeNow,
       });
 
-      callbackHandle = videoElement.requestVideoFrameCallback(videoFrameLoop);
+      videoFrameCallbackID = videoElement.requestVideoFrameCallback(videoFrameLoop);
     };
 
-    callbackHandle = videoElement.requestVideoFrameCallback(videoFrameLoop);
+    videoFrameCallbackID = videoElement.requestVideoFrameCallback(videoFrameLoop);
 
     return () => {
-      if (callbackHandle && videoElement) {
-        videoElement.cancelVideoFrameCallback(callbackHandle);
+      if (videoFrameCallbackID && videoElement) {
+        videoElement.cancelVideoFrameCallback(videoFrameCallbackID);
       }
     };
   }, [client, videoElementRef]);
