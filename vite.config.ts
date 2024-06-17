@@ -22,7 +22,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/proxy/xhome': {
-        target: 'https://uks.gssv-play-prodxhome.xboxlive.com',
+        target: 'https://uks.core.gssv-play-prodxhome.xboxlive.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/proxy\/xhome/, ''),
       },
