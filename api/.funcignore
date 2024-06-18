@@ -4,4 +4,6 @@
 .vscode
 local.settings.json
 test
-tsconfig.json
+node_modules/@types/
+node_modules/azure-functions-core-tools/
+node_modules/typescript/
