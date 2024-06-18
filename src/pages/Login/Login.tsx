@@ -1,35 +1,66 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { withAnonymousUser } from '../../hoc/withAnonymousUser';
-import { useAuthContext } from '../../providers/auth-provider';
+import {
+  ActionFunctionArgs,
+  Form,
+  json,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation
+} from 'react-router-dom';
+import { HttpError } from '@yowari/xremote';
+import { invariant } from '../../utils/invariant';
+import { login } from '../../utils/auth-service';
+import { requireUnauth } from '../../utils/auth-guard';
 
-function Login(): JSX.Element {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { login } = useAuthContext();
-  const [loading, setLoading] = useState(false);
-
-  const from = location.state?.from?.pathname || '/';
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    const oauthToken = formData.get('oauthToken') as string;
-
-    setLoading(true);
-    try {
-      await login(oauthToken);
-      navigate(from, { replace: true });
-    } catch (error) {
-      setLoading(false);
-      throw error;
-    }
+type LoaderType = {
+  defaultValues: {
+    oauthToken: string;
   };
+};
+
+export function loader() {
+  requireUnauth();
+
+  const oauthToken = localStorage.getItem('oauth-token') ?? '';
+
+  return json({
+    defaultValues: {
+      oauthToken,
+    },
+  });
+}
+
+type ActionType = {
+  error?: string;
+};
+
+export async function action({ request }: ActionFunctionArgs) {
+  const formData = await request.formData();
+  const oauthToken = formData.get('oauthToken');
+  invariant(typeof oauthToken === 'string', 'OAuth Token is required');
+
+  try {
+    await login(oauthToken);
+  } catch (error) {
+    if (error instanceof HttpError) {
+      return json({ error: 'Failed to login' });
+    }
+
+    throw error;
+  }
+
+  return redirect('/');
+}
+
+export default function Login() {
+  const { defaultValues } = useLoaderData() as LoaderType;
+  const actionData = useActionData() as ActionType;
+  const navigation = useNavigation();
+  const busy = navigation.state === 'submitting' || navigation.state === 'loading';
 
   return (
     <>
-      <a href="https://github.com/yowari/xremote-web" target="_blank" rel="noreferrer" style={{ position: 'absolute', top: 0, right: 0 }}>
+      <a className="position-absolute top-0 end-0" href="https://github.com/yowari/xremote-web" target="_blank" rel="noreferrer">
         <img
          loading="lazy"
          width="149"
@@ -41,39 +72,45 @@ function Login(): JSX.Element {
         />
       </a>
       <main className="d-flex align-items-center h-100">
-        <form className="m-auto p-4 w-100" style={{ maxWidth: '330px' }} onSubmit={handleSubmit} aria-label="Login">
-          <div className="text-center mb-4">
-            <img className="mb-4" src="/images/xbox-logo.png" alt="Xbox Logo" />
-            <h1 className="h3 fw-normal">Please authenticate</h1>
-          </div>
-
-          <div className="form-floating mb-3">
-            <input
-             type="password"
-             className="form-control"
-             id="oauthToken"
-             name="oauthToken"
-             aria-describedby="oauthTokenHelp"
-             disabled={loading}
-             required
-             autoFocus
-            />
-            <label htmlFor="oauthToken">OAuth Token</label>
-            <div id="oauthTokenHelp" className="form-text">
-              Make sure you are logged in the <a href="https://account.xbox.com/account/signin?returnUrl=https%3A%2F%2Fwww.xbox.com%2Fen-US%2Fplay&ru=https%3A%2F%2Fwww.xbox.com%2Fen-US%2Fplay" target="blank">Xbox website</a>{' '}
-              for valid streaming token.
+        <Form className="m-auto p-4 w-100" style={{ maxWidth: '330px' }} method="POST" aria-label="Login">
+          <fieldset disabled={busy}>
+            <div className="text-center mb-4">
+              <img className="mb-4" src="/images/xbox-logo.png" alt="Xbox Logo" />
+              <h1 className="h3 fw-normal">XRemote Authentication</h1>
             </div>
-            <div className="form-text">
-              Read the <a href="https://github.com/yowari/xremote-js/wiki/Authentication" target="blank">wiki page</a>{' '}
-              for a step by step guide.
-            </div>
-          </div>
 
-          <button type="submit" className="btn btn-lg btn-primary w-100" disabled={loading}>Submit</button>
-        </form>
+            {actionData?.error && (
+              <div className="alert alert-danger" role="alert">
+                {actionData.error}
+              </div>
+            )}
+
+            <div className="form-floating mb-3">
+              <input
+                type="password"
+                className="form-control"
+                id="oauthToken"
+                name="oauthToken"
+                defaultValue={defaultValues.oauthToken}
+                aria-describedby="oauthTokenHelp"
+                required
+                autoFocus
+              />
+              <label htmlFor="oauthToken">OAuth Token</label>
+              <div id="oauthTokenHelp" className="form-text">
+                Make sure you are logged in the <a href="https://account.xbox.com/account/signin?returnUrl=https%3A%2F%2Fwww.xbox.com%2Fen-US%2Fplay&ru=https%3A%2F%2Fwww.xbox.com%2Fen-US%2Fplay" target="blank">Xbox website</a>{' '}
+                for valid streaming token.
+              </div>
+              <div className="form-text">
+                Read the <a href="https://github.com/yowari/xremote-js/wiki/Authentication" target="blank">wiki page</a>{' '}
+                for a step by step guide.
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-lg btn-primary w-100">Submit</button>
+          </fieldset>
+        </Form>
       </main>
     </>
   );
 }
-
-export default withAnonymousUser(Login);

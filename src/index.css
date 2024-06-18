@@ -1,5 +1,5 @@
-@import '~bootstrap/dist/css/bootstrap.min';
-@import '~bootstrap-icons/font/bootstrap-icons';
+@import 'bootstrap/dist/css/bootstrap.min';
+@import 'bootstrap-icons/font/bootstrap-icons';
 
 html, body, #root {
   height: 100%;

@@ -1,46 +1,72 @@
-import React from 'react';
-import { Console } from '@yowari/xremote';
+import { Form } from 'react-router-dom';
+import type { Console } from '@yowari/xremote';
+import clsx from 'clsx';
+import {
+  XboxOne,
+  XboxOneS,
+  XboxOneSDigital,
+  XboxOneX,
+  XboxSeriesS,
+  XboxSeriesX,
+  DefaultXbox,
+} from './XboxIcons';
+import classes from './ConsoleCard.module.css';
+
+const CONSOLE_ICONS = {
+  XboxOne,
+  XboxOneS,
+  XboxOneSDigital,
+  XboxOneX,
+  XboxSeriesS,
+  XboxSeriesX,
+  DefaultXbox,
+};
+
+const STATE_ICONS = {
+  Unknown: 'bi-question-circle',
+  ConnectedStandby: 'bi-moon',
+  On: 'bi-check-circle',
+  Off: 'bi-power',
+  SystemUpdate: 'bi-exclamation-triangle',
+};
+
+const STATE_TEXT = {
+  Unknown: 'Unknown',
+  ConnectedStandby: 'Standby',
+  On: 'Power On',
+  Off: 'Power Off',
+  SystemUpdate: 'System Update',
+};
 
 export interface ConsoleCardProps {
   console: Console;
   loading?: boolean;
-  onStartStream?: (console: Console) => void;
 }
 
-function ConsoleCard({ console, loading, onStartStream }: ConsoleCardProps): JSX.Element {
-  const handleStartStream = () => {
-    onStartStream?.(console);
-  }
+export default function ConsoleCard({ console, loading }: ConsoleCardProps) {
+  const ConsoleIcon = CONSOLE_ICONS[console.consoleType as keyof typeof CONSOLE_ICONS] ?? DefaultXbox;
+  const stateColor = STATE_ICONS[console.powerState as keyof typeof STATE_ICONS] ?? STATE_ICONS['Unknown'];
+  const stateText = STATE_TEXT[console.powerState as keyof typeof STATE_TEXT] ?? STATE_TEXT['Unknown'];
 
   return (
-    <div className="p-4 my-2 bg-white border rounded-3">
-      <div className="d-flex align-items-center mb-2">
-        <h3 className="flex-grow-1 m-0">{console.deviceName}</h3>
-        <button className="btn btn-success" onClick={handleStartStream} disabled={loading}>
-          {loading
-            ? <>
-                <div className="spinner-border spinner-border-sm" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </>
-            : <i className="bi bi-play-fill"></i>
-          }
-          {' '}Start Stream
-        </button>
-      </div>
+    <div className="card">
+      <div className="card-body">
+        <h5 className="card-title">{console.deviceName}</h5>
+        <p className="card-subtitle mb-2 text-body-secondary">
+          <i className={clsx(stateColor, 'bi')}></i> {stateText}
+        </p>
 
-      <dl className="list-group list-group-flush text-muted" aria-label="Console Informations">
-        <div className="list-group-item d-flex justify-content-between align-items-center">
-          <dt className="fw-normal">Server ID</dt>
-          <dd className="m-0">{console.serverId}</dd>
+        <div className="text-center py-4">
+          <ConsoleIcon className={classes.consoleIcon} />
         </div>
-        <div className="list-group-item d-flex justify-content-between align-items-center">
-          <dt className="fw-normal">Power State</dt>
-          <dd className="m-0">{console.powerState}</dd>
-        </div>
-      </dl>
+
+        <Form className="d-grid" method="POST">
+          <input type="hidden" name="serverId" value={console.serverId} />
+          <button className="btn btn-success" type="submit" disabled={loading}>
+            <i className="bi bi-play-fill"></i> Start Stream
+          </button>
+        </Form>
+      </div>
     </div>
   );
 }
-
-export default ConsoleCard;

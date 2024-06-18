@@ -1,5 +1,3 @@
-import React from 'react';
-
 export interface AboutDialogProps {
   appName: string;
   appVersion: string;
@@ -17,7 +15,7 @@ function AboutDialog({ appName, appVersion, onClose }: AboutDialogProps): JSX.El
           </div>
           <div className="modal-body">
             <div className="mb-3 d-flex flex-column align-items-center">
-              <img className="d-block" width={150} height={150} src="/images/xremote-logo.png" alt="XRemote Logo" />
+              <div className="display-1"><i className="bi bi-xbox"></i></div>
               <div>
                 <h2 className="mb-0">{appName}</h2>
                 <div className="small"><strong>Version</strong> {appVersion}</div>
@@ -28,7 +26,7 @@ function AboutDialog({ appName, appVersion, onClose }: AboutDialogProps): JSX.El
               <a className="text-decoration-none" href="https://github.com/yowari/xremote-web" target="_blank" rel="noreferrer"><i className="bi bi-github"></i> GitHub</a>
             </p>
 
-            <div className="small text-muted text-center">Made with <i className="text-danger bi bi-heart-fill"></i> by <strong>yowari</strong></div>
+            <div className="small text-muted text-center">Made by <strong>yowari</strong></div>
           </div>
         </div>
       </div>

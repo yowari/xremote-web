@@ -1,1 +1,1 @@
-export { default } from './Login';
+export { default, loader, action } from './Login';

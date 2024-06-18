@@ -1,69 +1,84 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  GamepadFrame,
-  StreamState,
-  StreamStateChangeEvent,
-  VideoFrameEvent,
-  VIDEO_CHANNEL
-} from '@yowari/xremote';
-import Player from '../../components/Player';
-import { withAuthUser } from '../../hoc/withAuthUser';
-import { withSourceBuffer } from '../../hoc/withSourceBuffer';
-import { useClientContext } from '../../providers/client-provider';
-import { useVideoSourceBufferContext } from '../../providers/video-source-buffer-provider';
+import { createClient } from '../../utils/client';
+import classes from './Session.module.css';
+import { useFullscreen } from './useFullscreen';
+import StreamPlayer from '../../components/Stream/StreamPlayer';
+import StreamLoading from '../../components/Stream/StreamLoading';
+import StreamControlBar from '../../components/Stream/StreamControlBar';
 
-function Session(): JSX.Element {
-  const { sessionId } = useParams();
+const PLAYER_CONTROL_DISPLAY_DELAY = 1000;
 
-  const client = useClientContext();
-  const { renderFrame, sourceBuffer } = useVideoSourceBufferContext();
+function useStreamControlBarDisplay() {
+  const [showControl, setShowControl] = useState<boolean>(true);
 
-  const [streamState, setStreamState] = useState<StreamState>();
+  const mouseOverControl = useRef<boolean>(false);
+  const showControlTimeout = useRef<number>(0);
 
-  const onFrame = useCallback((frame: Event) => {
-    renderFrame((frame as VideoFrameEvent).frame);
-  }, [renderFrame]);
-
-  const onStreamStateChange = useCallback((event: Event) => {
-    setStreamState((event as StreamStateChangeEvent).state);
-  }, []);
-
-  const startStream = useCallback(async () => {
-    client.addEventListener('streamstatechange', onStreamStateChange);
-
-    await client.startStream(sessionId!);
-
-    const videoChannel = client.getChannel(VIDEO_CHANNEL);
-    videoChannel.addEventListener('frame', onFrame);
-  }, [client, sessionId, onFrame, onStreamStateChange]);
-
-  const stopStream = useCallback(() => {
-    client.removeEventListener('streamstatechange', onStreamStateChange);
-
-    const videoChannel = client.getChannel(VIDEO_CHANNEL);
-    videoChannel.removeEventListener('frame', onFrame);
-
-    client.stopStream();
-  }, [client, onFrame, onStreamStateChange]);
-
-  useEffect(() => {
-    if (sourceBuffer) {
-      startStream();
-      return stopStream;
+  const hideControlAfterTimeout = () => {
+    if (showControlTimeout.current) {
+      window.clearTimeout(showControlTimeout.current);
     }
-  }, [startStream, stopStream, sourceBuffer]);
 
-  const handleGamepadChange = (gamepad: GamepadFrame) => {
-    const gamepadManager = client.getGamepadManager();
-    gamepadManager.pushState(gamepad);
+    showControlTimeout.current = window.setTimeout(() => {
+      if (!mouseOverControl.current) {
+        setShowControl(false);
+      }
+      showControlTimeout.current = 0;
+    }, PLAYER_CONTROL_DISPLAY_DELAY);
   };
 
+  const handleControlMouseMove = () => {
+    setShowControl(true);
+    hideControlAfterTimeout();
+  };
+
+  const handleControlMouseOver = () => {
+    mouseOverControl.current = true;
+    setShowControl(true);
+  };
+
+  const handleControlMouseLeave = () => {
+    mouseOverControl.current = false;
+    hideControlAfterTimeout();
+  };
+
+  return {
+    showControl,
+    handleControlMouseMove,
+    handleControlMouseOver,
+    handleControlMouseLeave,
+  };
+}
+
+export default function Session() {
+  const { sessionId } = useParams();
+  const [client] = useState(() => createClient());
+  const videoHolderRef = useRef<HTMLDivElement | null>(null);
+  const { fullscreen, handleFullscreen } = useFullscreen(videoHolderRef);
+  const {
+    showControl,
+    handleControlMouseLeave,
+    handleControlMouseMove,
+    handleControlMouseOver,
+  } = useStreamControlBarDisplay();
+
+  useEffect(() => {
+    client.startStream(sessionId!);
+    return () => client.stopStream();
+  }, [client, sessionId]);
+
   return (
-    <div className="border">
-      <Player streamState={streamState} onGamepadChange={handleGamepadChange} />
+    <div className={classes.container} ref={videoHolderRef} onMouseMove={handleControlMouseMove}>
+      <StreamPlayer client={client} />
+      <StreamControlBar
+        showControl={showControl}
+        isFullscreen={fullscreen}
+        onFullscreen={handleFullscreen}
+        onMouseLeave={handleControlMouseLeave}
+        onMouseOver={handleControlMouseOver}
+      />
+      <StreamLoading client={client} />
     </div>
   );
 }
-
-export default withAuthUser(withSourceBuffer(Session));

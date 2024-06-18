@@ -1,33 +1,37 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import Header from './Header';
 
-describe('About', () => {
+describe('Header', () => {
   it('should render application title', () => {
-    render(<Header />, { wrapper: MemoryRouter });
-    expect(screen.getByRole('link', { name: 'XRemote Home' })).toHaveTextContent(/XRemote/i);
-  });
-  it('should call onOpenHelp when clicking on help button', () => {
-    const handleOpenHelpMock = jest.fn();
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Header />,
+      }
+    ]);
 
-    render(<Header onOpenHelp={handleOpenHelpMock} />, { wrapper: MemoryRouter });
+    render(<RouterProvider router={router} />);
 
-    const helpButton = screen.getByRole('link', { name: 'Help' });
-    userEvent.click(helpButton);
-
-    expect(handleOpenHelpMock).toHaveBeenCalled();
+    expect(screen.getByRole('link', { name: /xremote home/i })).toHaveTextContent(/XRemote/i);
   });
 
-  it('should call onLogout when clicking on logout button', () => {
-    const handleLogoutMock = jest.fn();
+  it('should call onOpenHelp when clicking on help button', async () => {
+    const spyOpenHelpMock = vi.fn();
 
-    render(<Header onLogout={handleLogoutMock} />, { wrapper: MemoryRouter });
+    const router = createMemoryRouter([
+      {
+        path: '/',
+        element: <Header onOpenHelp={spyOpenHelpMock} />,
+      }
+    ]);
 
-    const logoutButton = screen.getByRole('button', { name: /Logout/i });
-    userEvent.click(logoutButton);
+    render(<RouterProvider router={router} />);
 
-    expect(handleLogoutMock).toHaveBeenCalled();
+    const helpButton = screen.getByRole('button', { name: /help/i });
+    await userEvent.click(helpButton);
+
+    expect(spyOpenHelpMock).toHaveBeenCalled();
   });
 });
